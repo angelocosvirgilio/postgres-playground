@@ -1,0 +1,45 @@
+version: "3.8"
+services:
+
+  postgres:
+    container_name: test-db
+    image: postgres:16
+    ports:
+      - ${PG_PORT:-5432}:5432
+    volumes:
+      - .docker-data/pg/postgres:/var/lib/postgresql/data:consistent
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 2s
+      retries: 40
+
+  ###
+  ### UTILITIES
+  ###
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@admin.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-pgadmin}
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+    ports:
+    - "${PGADMIN_PORT:-5050}:80"
+    volumes:
+      - ./configs/pgadmin/servers.json:/pgadmin4/servers.json
+      - ./configs/pgadmin/pgpass:/pgadmin4/pgpass
+    depends_on:
+      - postgres
+    entrypoint: >
+      /bin/sh -c "
+      cp -f /pgadmin4/pgpass /var/lib/pgadmin/;
+      chmod 600 /var/lib/pgadmin/pgpass;
+      chown pgadmin:pgadmin /var/lib/pgadmin/pgpass;
+      /entrypoint.sh
+      "
