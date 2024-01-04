@@ -1,6 +1,18 @@
 # postgres-playground
 Little repo where to play with postgresql db 
 
+## Prerequisites
+
+- docker-compose
+- makefile
+
+## How to use
+
+``` make start ``` : start containers postgres and pgadmin
+
+
+``` make stop ``` : stop all containers 
+
 ## postgres
 
 default configurations can be changed via .env variables:
@@ -19,6 +31,8 @@ pgadmin is a client to browse the database
 you can use it opening locahost:5050
 
 by default no passwords will be required to access to the test database
+
+[here](https://www.pgadmin.org/docs/pgadmin4/latest/container_deployment.html#environment-variables) you can find the entire list of environment variables. 
 
 ### Servers configuration
 
@@ -52,5 +66,5 @@ in configs/pgadmin folder you can finf servers.json file and pgpass file
 
 > pgpass: contains the password file for the db in this format
 
-_ hostname:port:database:username:password_
+_hostname:port:database:username:password_
 
