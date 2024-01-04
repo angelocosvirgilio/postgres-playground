@@ -10,8 +10,25 @@ Little repo where to play with postgresql db
 
 ``` make start ``` : start containers postgres and pgadmin
 
-
 ``` make stop ``` : stop all containers 
+
+### run queries
+
+to run a custom query you can write it in the query-editor.sql file and after type ``` make query-editor ``` from the terminal
+
+### run specific projects
+
+go to a specific project folder inside _/projects_ folder
+
+you can find seed.sql and query-editor.sql files specific for the project
+
+first install the seed with ``` make seed ``` and after run ``` make query-editor ```
+
+
+### use client
+
+you can access browse and query the database from pgadmin at http://localhost:5050
+
 
 ## postgres
 

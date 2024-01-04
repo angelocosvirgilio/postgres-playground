@@ -6,7 +6,6 @@
 #
 pg_name?=test-db
 pg_password?=postgres
-pg_version?=13.2
 pg_data?=.docker-data
 
 start:
@@ -27,6 +26,10 @@ logs:
 psql:
 	@echo "Connecting to the database ("quit" to exit) ..."
 	@docker exec -it $(pg_name) psql -U postgres postgres
+
+query-editor:
+	@echo "Connecting to the database ("quit" to exit) ..."
+	@docker exec -i $(pg_name) psql -U postgres postgres < ./query-editor.sql
 
 seed:
 	@docker exec -i $(pg_name) psql -U postgres postgres < ./seed.sql
