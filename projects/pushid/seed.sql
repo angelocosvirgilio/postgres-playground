@@ -133,4 +133,75 @@ END;
 $$ LANGUAGE plpgsql IMMUTABLE STRICT;
 
 
+/**
+function decode(id) {
+    id = id.substring(0,8);
+    var timestamp = 0;
+    for (var i=0; i < id.length; i++) {
+      var c = id.charAt(i);
+      timestamp = timestamp * 64 + PUSH_CHARS.indexOf(c);
+    }
+    return timestamp;
+  }
+*/
+
+
+CREATE OR REPLACE FUNCTION "pushid"."pushid_decode_date"(PAR_precision "pushid_precision", id text) RETURNS bigint AS $$
+DECLARE
+    id_prefix text;
+    timestamp bigint := 0;
+    i integer;
+    c char;
+    VAR_chars VARCHAR(64) = '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz';
+BEGIN
+    -- Extract the first 8 characters from the id
+    IF PAR_precision = 'ms' THEN
+        id_prefix := LEFT(id, 8);
+    ELSE
+        id_prefix := LEFT(id, 10);
+    END IF;
+
+    -- Loop through each character in the prefix
+    FOR i IN 1..LENGTH(id_prefix) LOOP
+        -- Get the i-th character
+        c := SUBSTRING(id_prefix FROM i FOR 1);
+
+        -- Update the timestamp using the PUSH_CHARS index
+        timestamp := timestamp * 64 + (POSITION(c IN VAR_chars)-1);
+    END LOOP;
+
+    RETURN timestamp;
+END;
+$$ LANGUAGE plpgsql;
+
+/*
+CREATE OR REPLACE FUNCTION "pushid"."pushid_decode_date"(pushid_text VARCHAR(20)) RETURNS timestamptz AS $$
+DECLARE
+    decoded_text text;
+    timestamp_str text;
+    timestamp_unix bigint;
+    VAR_chars VARCHAR(64) = '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz';
+BEGIN
+    -- Decode the pushid
+    -- decoded_bytea := decode(pushid, 'base64');
+
+    -- -- Convert bytea to text
+    -- decoded_text := convert_from(decoded_bytea, 'UTF8');
+
+    -- Extract the timestamp part
+    timestamp_str := substring(pushid_text from 1 for 10);
+
+    for counter in 1..10 loop
+
+    end loop;
+
+    -- Convert timestamp to UNIX timestamp (assuming it's in milliseconds)
+    timestamp_unix := cast(timestamp_str as bigint);
+
+    -- Convert UNIX timestamp to timestamptz
+    RETURN TO_TIMESTAMP(timestamp_unix / 1000.0) AT TIME ZONE 'UTC';
+END;
+$$ LANGUAGE plpgsql;
+*/
+
 

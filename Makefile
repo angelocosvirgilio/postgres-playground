@@ -7,6 +7,7 @@
 pg_name?=test-db
 pg_password?=postgres
 pg_data?=.docker-data
+filename?=query-editor
 
 start:
 	@echo "Starting Project..."
@@ -28,8 +29,12 @@ psql:
 	@docker exec -it $(pg_name) psql -U postgres postgres
 
 query-editor:
-	@echo "Connecting to the database ("quit" to exit) ..."
+	@echo "Executing query-editor ..."
 	@docker exec -i $(pg_name) psql -U postgres postgres < ./query-editor.sql
 
 seed:
 	@docker exec -i $(pg_name) psql -U postgres postgres < ./seed.sql
+
+exec-file:
+	@echo "Executing file ..."
+	@docker exec -i $(pg_name) psql -U postgres postgres < ./$(filename).sql
