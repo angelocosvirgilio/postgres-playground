@@ -76,7 +76,7 @@ BEGIN
 	END IF;
 
 	"last_push_date" = PAR_now;
-	"value" = pushid_encode_date(PAR_precision, PAR_now);
+	"value" = pushid.pushid_encode_date(PAR_precision, PAR_now);
 	
 	-- Calculate randomized characters
 	IF PAR_now = PAR_lastPushTime THEN
@@ -127,24 +127,10 @@ AS $$
 DECLARE
 	VAR_r RECORD; 
 BEGIN
-	SELECT * INTO VAR_r FROM pushid_generate_v1(PAR_precision, clock_timestamp());
+	SELECT * INTO VAR_r FROM "pushid".pushid_generate_v1(PAR_precision, clock_timestamp());
 	"value" = VAR_r."value";
 END;
 $$ LANGUAGE plpgsql IMMUTABLE STRICT;
-
-
-/**
-function decode(id) {
-    id = id.substring(0,8);
-    var timestamp = 0;
-    for (var i=0; i < id.length; i++) {
-      var c = id.charAt(i);
-      timestamp = timestamp * 64 + PUSH_CHARS.indexOf(c);
-    }
-    return timestamp;
-  }
-*/
-
 
 CREATE OR REPLACE FUNCTION "pushid"."pushid_decode_date"(PAR_precision "pushid_precision", id text) RETURNS bigint AS $$
 DECLARE
@@ -174,34 +160,5 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-/*
-CREATE OR REPLACE FUNCTION "pushid"."pushid_decode_date"(pushid_text VARCHAR(20)) RETURNS timestamptz AS $$
-DECLARE
-    decoded_text text;
-    timestamp_str text;
-    timestamp_unix bigint;
-    VAR_chars VARCHAR(64) = '-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz';
-BEGIN
-    -- Decode the pushid
-    -- decoded_bytea := decode(pushid, 'base64');
-
-    -- -- Convert bytea to text
-    -- decoded_text := convert_from(decoded_bytea, 'UTF8');
-
-    -- Extract the timestamp part
-    timestamp_str := substring(pushid_text from 1 for 10);
-
-    for counter in 1..10 loop
-
-    end loop;
-
-    -- Convert timestamp to UNIX timestamp (assuming it's in milliseconds)
-    timestamp_unix := cast(timestamp_str as bigint);
-
-    -- Convert UNIX timestamp to timestamptz
-    RETURN TO_TIMESTAMP(timestamp_unix / 1000.0) AT TIME ZONE 'UTC';
-END;
-$$ LANGUAGE plpgsql;
-*/
 
 
