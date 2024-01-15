@@ -29,6 +29,8 @@ first install the seed with ``` make seed ``` and after run ``` make query-edito
 
 you can access browse and query the database from pgadmin at http://localhost:5050
 
+### run specific commands inside projects
+
 
 ## postgres
 
