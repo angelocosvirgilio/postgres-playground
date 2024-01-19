@@ -38,3 +38,7 @@ seed:
 exec-file:
 	@echo "Executing file ..."
 	@docker exec -i $(pg_name) psql -U postgres postgres < ./$(filename).sql
+
+live-query: 
+	@chmod +x monitor-changes.sh
+	./monitor-changes.sh
