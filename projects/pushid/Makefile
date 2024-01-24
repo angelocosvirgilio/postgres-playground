@@ -14,7 +14,9 @@ filename=script
 concat-files:
 	@cat test.sql test2.sql > $(filename).sql
 
-exec-script: exec-file
+clean: filename=clean
+order: filename=order
+exec-script order clean: exec-file
 
 exec-scripts: concat-files exec-script
 	@rm $(filename).sql
