@@ -18,6 +18,7 @@ pick-random-array: filename=pick-random-array
 generate-random-numbers: filename=generate-random-numbers
 generate-random-birthdays: filename=generate-random-birthdays
 generate-seed: filename=generate-seed
+complete-user-seed: filename=complete-user-seed
 
-simple custom-fields pick-random-array generate-random-numbers generate-random-birthdays generate-seed: exec-file
+simple custom-fields pick-random-array generate-random-numbers generate-random-birthdays generate-seed complete-user-seed: exec-file
 
