@@ -18,3 +18,15 @@ CREATE TABLE IF NOT EXISTS "poly".ptable (
   id int,
   value anyelement
 );
+
+
+CREATE FUNCTION poly.my_custom_at(text, text)
+RETURNS text AS 'SELECT CONCAT($1,''@'',$2)' LANGUAGE SQL;
+
+CREATE OPERATOR @ (
+  LEFTARG = text,
+  RIGHTARG = text,
+  PROCEDURE = poly.my_custom_at
+);
+
+select 'a' @ 'b' 
