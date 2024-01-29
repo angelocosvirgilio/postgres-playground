@@ -11,8 +11,10 @@ include ../../Makefile
 
 filename=script
 
+clean: filename=clean
 populate: filename=populate
 read-data: filename=read-data
 operator: filename=operator
-populate read-data operator: exec-file
+poly-functions: filename=poly-functions
+clean populate read-data operator poly-functions: exec-file
 
