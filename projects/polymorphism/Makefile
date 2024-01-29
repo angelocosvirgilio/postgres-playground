@@ -13,5 +13,6 @@ filename=script
 
 populate: filename=populate
 read-data: filename=read-data
-populate read-data: exec-file
+operator: filename=operator
+populate read-data operator: exec-file
 

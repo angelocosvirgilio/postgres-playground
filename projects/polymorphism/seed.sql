@@ -29,4 +29,12 @@ CREATE OPERATOR @ (
   PROCEDURE = poly.my_custom_at
 );
 
-select 'a' @ 'b' 
+CREATE FUNCTION poly.local_concat(text, text)
+RETURNS text AS 'SELECT CONCAT(''<local_concat> '',$1,''_'',$2,'' </local_concat>'')' LANGUAGE SQL;
+
+CREATE OPERATOR poly.|| (
+  LEFTARG = text,
+  RIGHTARG = text,
+  PROCEDURE = poly.local_concat
+);
+
