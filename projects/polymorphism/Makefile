@@ -15,6 +15,6 @@ clean: filename=clean
 populate: filename=populate
 read-data: filename=read-data
 operator: filename=operator
-poly-functions: filename=poly-functions
-clean populate read-data operator poly-functions: exec-file
+overloaded-functions: filename=overloaded-functions
+clean populate read-data operator overloaded-functions: exec-file
 

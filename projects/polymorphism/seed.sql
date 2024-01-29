@@ -1,14 +1,16 @@
 CREATE SCHEMA IF NOT EXISTS "poly";
 
 /** poly function */
-CREATE OR REPLACE FUNCTION poly.max( arg1 ANYELEMENT, arg2 ANYELEMENT ) 
+CREATE OR REPLACE FUNCTION poly.get_the_max( arg1 ANYELEMENT, arg2 ANYELEMENT ) 
     RETURNS ANYELEMENT AS $$
   BEGIN
 
     IF( arg1 > arg2 ) THEN
       RETURN( arg1 );
-    ELSE
+    ELSEIF( arg1 < arg2 ) THEN
       RETURN( arg2 );
+    ELSE 
+      RETURN (NULL);
     END IF;
 
   END;

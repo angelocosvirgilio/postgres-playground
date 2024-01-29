@@ -1,9 +1,9 @@
-select poly.get_my_input(1);
-
-select poly.get_my_input('ciao');
-
-select poly.get_my_input('hey hey', '2024-01-06');
-
-select poly.optional_inputs('hello', '2024-01-10');
-
-select poly.optional_inputs('Hi!');
+select poly.get_the_max(10, 4);
+select poly.get_the_max(10, 10);
+select poly.get_the_max(20, 40);
+select poly.get_the_max('c'::text, 'z'::text);
+select poly.get_the_max('c'::text, 'a'::text);
+select poly.get_the_max('c'::text, 'c'::text);
+select poly.get_the_max('c'::text, '1'::text);
+select poly.get_the_max('2024-01-01'::TIMESTAMPTZ, '2024-01-30'::TIMESTAMPTZ);
+select poly.get_the_max('c'::text, 'a'::char);
