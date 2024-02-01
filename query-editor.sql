@@ -1,2 +1,5 @@
-select 1,2,3,4,5;
+select 1,2,3,45;
+
+select 'a','b','c';
+
 
