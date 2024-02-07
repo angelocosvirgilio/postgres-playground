@@ -1,0 +1,1 @@
+SELECT heap_blks_read, heap_blks_hit from pg_statio_user_tables where relname='tbldummy';
