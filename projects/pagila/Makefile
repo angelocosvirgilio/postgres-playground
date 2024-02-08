@@ -16,7 +16,10 @@ filename=script
 clean: filename=clean
 populate: filename=pagila-data
 research: filename=research
-clean populate research: exec-file
+examples-functions: filename=examples-functions
+examples-queries: filename=examples-queries
+research: filename=research
+clean populate research examples-functions examples-queries: exec-file
 
 
 concat-files:
