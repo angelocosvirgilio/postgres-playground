@@ -1,10 +1,10 @@
 BEGIN;
-SELECT plan(3);
+SELECT plan(5);
 
 SELECT has_function(
     'testing',
     'insert_record',
-    ARRAY ['VARCHAR(20)','DATE', 'VARCHAR(2)'],
+    ARRAY ['INT', 'VARCHAR(20)','DATE', 'VARCHAR(2)'],
     'It should confirm that insert_record function exists'
 );
 
@@ -18,13 +18,35 @@ SELECT function_returns(
 SELECT results_eq(
   $$SELECT *
     FROM "testing"."insert_record"(
-  'angelo',
-  '1982-11-30',
+  1,
+  'tizio',
+  '1990-01-20',
   'it');$$,
-  $$SELECT id FROM "testing"."test_table" WHERE uname='angelo' AND date_of_birth='1982-11-30' AND country='it'$$,
-  'It should return the id of the inserted record'
+  $$VALUES 
+    (1)
+  $$,
+  'It should return id=2'
 );
 
+-- It should get an error if record already exists
+SELECT throws_ok(
+  $$SELECT *
+    FROM "testing"."insert_record"(
+  2,
+  'tizio',
+  '1990-01-20',
+  'it');$$
+);
+
+-- It should get an error for primary key duplication
+SELECT throws_ok(
+  $$SELECT *
+    FROM "testing"."insert_record"(
+  1,
+  'caio',
+  '1994-05-18',
+  'es');$$
+);
 
 SELECT * FROM finish();
 ROLLBACK;

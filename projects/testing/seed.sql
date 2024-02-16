@@ -1,7 +1,7 @@
 CREATE SCHEMA IF NOT EXISTS "testing";
 
 CREATE TABLE IF NOT EXISTS "testing"."test_table" (
-    id SERIAL PRIMARY KEY,
+    id INT PRIMARY KEY,
     uname varchar(20),
     date_of_birth date,
     country varchar(2)
@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS "testing"."test_table" (
 
 
 CREATE OR REPLACE FUNCTION "testing".insert_record(
+    p_id INT,
     p_uname VARCHAR(20),
     p_date_of_birth DATE,
     p_country VARCHAR(2)
@@ -28,8 +29,8 @@ BEGIN
         RAISE EXCEPTION 'Record already exists';
     ELSE
         -- Insert the record if it doesn't exist
-        INSERT INTO testing.test_table (uname, date_of_birth, country)
-        VALUES (p_uname, p_date_of_birth, p_country)
+        INSERT INTO testing.test_table (id, uname, date_of_birth, country)
+        VALUES (p_id, p_uname, p_date_of_birth, p_country)
         RETURNING id INTO inserted_id;
     END IF;
     
