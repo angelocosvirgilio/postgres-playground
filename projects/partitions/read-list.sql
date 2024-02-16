@@ -6,3 +6,5 @@ SELECT *, tableoid::regclass "partition_table" FROM partitions.products WHERE ca
 
 -- Retrieve furniture partitions.products
 SELECT *, tableoid::regclass "partition_table" FROM partitions.products WHERE category = 'Furniture';
+
+SELECT tableoid::regclass,* FROM partitions.products;

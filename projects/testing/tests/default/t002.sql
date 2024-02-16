@@ -25,7 +25,7 @@ SELECT results_eq(
   $$VALUES 
     (1)
   $$,
-  'It should return id=2'
+  'It should return id=1'
 );
 
 -- It should get an error if record already exists
