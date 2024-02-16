@@ -31,7 +31,7 @@ you can access browse and query the database from pgadmin at http://localhost:50
 
 ### run specific commands inside projects
 
-
+ 
 ## postgres
 
 default configurations can be changed via .env variables:
