@@ -1,0 +1,1 @@
+SELECT 'prova' as prova

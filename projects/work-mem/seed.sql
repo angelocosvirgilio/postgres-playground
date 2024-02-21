@@ -1,0 +1,7 @@
+CREATE SCHEMA IF NOT EXISTS "workmem";
+
+CREATE TABLE "workmem".sales_data (
+id SERIAL PRIMARY KEY,
+date DATE NOT NULL,
+amount DECIMAL(10, 2) NOT NULL
+);

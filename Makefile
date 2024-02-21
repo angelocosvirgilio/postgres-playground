@@ -35,6 +35,9 @@ query-editor:
 seed:
 	@docker exec -i $(pg_name) psql -U postgres postgres < ./seed.sql
 
+clean:
+	@docker exec -i $(pg_name) psql -U postgres postgres < ./clean.sql
+
 exec-file:
 	@echo "Executing file ..."
 	@docker exec -i $(pg_name) psql -U postgres postgres < ./$(filename).sql
@@ -42,3 +45,9 @@ exec-file:
 live-query: 
 	@chmod +x monitor-changes.sh
 	./monitor-changes.sh
+
+%: 
+	@$(MAKE) exec-file filename=$@
+
+curr_dir:
+	@echo $(shell pwd)
