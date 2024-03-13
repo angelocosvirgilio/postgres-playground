@@ -21,7 +21,7 @@ SELECT posts.id AS post_id, comments.id AS comment_id, comments.body AS body, li
     PARTITION BY post_id
     ORDER BY comments.created_at ASC
   ) AS comment_rank,
-  sum(likes) OVER (PARTITION BY post_id ORDER BY comments.created_at DESC) total_likes_until_this_post
+  sum(likes) OVER (PARTITION BY post_id ORDER BY comments.created_at ASC) total_likes_until_this_post
 FROM windowf.posts LEFT OUTER JOIN windowf.comments ON posts.id = comments.post_id;
 
 

@@ -2,5 +2,6 @@
     "name": "postgres-playground",
     "dockerComposeFile": "../docker-compose.yml",
     "service": "postgres",
+    "workspaceFolder": "var/lib/postgresql/data",
     "forwardPorts": [5050, 5432]
   }
