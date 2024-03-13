@@ -1,0 +1,6 @@
+{
+    "name": "postgres-playground",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "postgres",
+    "forwardPorts": [5050, 5432]
+  }
