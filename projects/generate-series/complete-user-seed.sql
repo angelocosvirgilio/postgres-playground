@@ -2,7 +2,7 @@ WITH
   -- SEED CONFIGURATION AND STATIC DATA
   -- (we use this as source for dictionary-based randomic selections)
   "seed_config"("doc") AS ( VALUES ('{
-    "users_tot": 50000,
+    "users_tot": 50,
     "user_age_min": 18,
     "user_age_max": 80,
     "user_rand_min": 9999,

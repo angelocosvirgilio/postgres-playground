@@ -10,5 +10,14 @@
 
 --SELECT *, tableoid::regclass "partition_table" FROM partitions.products
 
+--INSERT INTO partitions.sales_february (sale_id, sale_date, product_id, quantity, amount)
+--VALUES (14,'2024-01-01', 199, 5, 110.00);
 
-ALTER TABLE partitions.products ADD COLUMN discount NUMERIC;
+--ALTER TABLE partitions.products ADD COLUMN discount NUMERIC;
+
+update partitions.products
+set category='Electronics'
+where product_id=2;
+
+
+select * from partitions.electronics
