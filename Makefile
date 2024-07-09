@@ -46,8 +46,8 @@ live-query:
 	@chmod +x monitor-changes.sh
 	./monitor-changes.sh
 
-# %: 
-# 	@$(MAKE) exec-file filename=$@
+%: 
+	@$(MAKE) exec-file filename=$@
 
-# curr_dir:
-# 	@echo $(shell pwd)
+curr_dir:
+	@echo $(shell pwd)
