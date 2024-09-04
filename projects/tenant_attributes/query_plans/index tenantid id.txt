@@ -1,0 +1,85 @@
+                                                           QUERY PLAN                                                            
+---------------------------------------------------------------------------------------------------------------------------------
+ Bitmap Heap Scan on t_tble  (cost=4267.02..18382.71 rows=200839 width=55) (actual time=16.490..78.534 rows=199785 loops=1)
+   Recheck Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+   Filter: (tenant_attributes @> '{}'::text[])
+   Heap Blocks: exact=10591
+   ->  Bitmap Index Scan on ttble_idx  (cost=0.00..4216.82 rows=200839 width=0) (actual time=14.651..14.651 rows=199785 loops=1)
+         Index Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+ Planning Time: 0.453 ms
+ Execution Time: 83.426 ms
+(8 rows)
+
+                                                           QUERY PLAN                                                            
+---------------------------------------------------------------------------------------------------------------------------------
+ Bitmap Heap Scan on t_tble  (cost=4219.31..18334.99 rows=9962 width=55) (actual time=18.152..74.354 rows=9881 loops=1)
+   Recheck Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+   Filter: (tenant_attributes @> '{us}'::text[])
+   Rows Removed by Filter: 189904
+   Heap Blocks: exact=10591
+   ->  Bitmap Index Scan on ttble_idx  (cost=0.00..4216.82 rows=200839 width=0) (actual time=16.256..16.257 rows=199785 loops=1)
+         Index Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+ Planning Time: 0.065 ms
+ Execution Time: 74.764 ms
+(9 rows)
+
+                                                              QUERY PLAN                                                               
+---------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=5216.93..17328.68 rows=463 width=55) (actual time=17.305..80.466 rows=444 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Bitmap Heap Scan on t_tble  (cost=4216.93..16282.38 rows=193 width=55) (actual time=16.273..73.730 rows=148 loops=3)
+         Recheck Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+         Filter: (tenant_attributes @> '{us,"Old city"}'::text[])
+         Rows Removed by Filter: 66447
+         Heap Blocks: exact=3208
+         ->  Bitmap Index Scan on ttble_idx  (cost=0.00..4216.82 rows=200839 width=0) (actual time=14.849..14.849 rows=199785 loops=1)
+               Index Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+ Planning Time: 0.094 ms
+ Execution Time: 80.541 ms
+(12 rows)
+
+                                                              QUERY PLAN                                                               
+---------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=5216.82..17284.67 rows=24 width=55) (actual time=21.507..48.137 rows=23 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Bitmap Heap Scan on t_tble  (cost=4216.82..16282.27 rows=10 width=55) (actual time=19.658..41.913 rows=8 loops=3)
+         Recheck Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+         Filter: (tenant_attributes @> '{us,"Old city",Garage}'::text[])
+         Rows Removed by Filter: 66587
+         Heap Blocks: exact=4015
+         ->  Bitmap Index Scan on ttble_idx  (cost=0.00..4216.82 rows=200839 width=0) (actual time=16.292..16.292 rows=199785 loops=1)
+               Index Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+ Planning Time: 0.066 ms
+ Execution Time: 48.163 ms
+(12 rows)
+
+                                                           QUERY PLAN                                                            
+---------------------------------------------------------------------------------------------------------------------------------
+ Bitmap Heap Scan on t_tble  (cost=4219.44..18335.12 rows=10490 width=55) (actual time=15.516..75.907 rows=10560 loops=1)
+   Recheck Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+   Filter: (tenant_attributes @> '{Garage}'::text[])
+   Rows Removed by Filter: 189225
+   Heap Blocks: exact=10591
+   ->  Bitmap Index Scan on ttble_idx  (cost=0.00..4216.82 rows=200839 width=0) (actual time=13.895..13.895 rows=199785 loops=1)
+         Index Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+ Planning Time: 0.073 ms
+ Execution Time: 76.518 ms
+(9 rows)
+
+                                                              QUERY PLAN                                                               
+---------------------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=5216.94..17331.19 rows=488 width=55) (actual time=21.196..50.159 rows=421 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Bitmap Heap Scan on t_tble  (cost=4216.94..16282.39 rows=203 width=55) (actual time=19.326..43.912 rows=140 loops=3)
+         Recheck Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+         Filter: (tenant_attributes @> '{"Old city",Garage}'::text[])
+         Rows Removed by Filter: 66455
+         Heap Blocks: exact=3960
+         ->  Bitmap Index Scan on ttble_idx  (cost=0.00..4216.82 rows=200839 width=0) (actual time=19.434..19.434 rows=199785 loops=1)
+               Index Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+ Planning Time: 0.076 ms
+ Execution Time: 50.203 ms
+(12 rows)

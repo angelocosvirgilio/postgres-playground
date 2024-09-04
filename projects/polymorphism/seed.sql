@@ -93,3 +93,18 @@ declare
 begin
 	return (int_input, your_date);
 end; $$;
+
+
+create or replace function poly.test_optional_in_middle(
+	int_input text,
+  your_date date DEFAULT CURRENT_DATE,
+  a_string text DEFAULT 'world'
+)
+returns RECORD 
+language plpgsql
+as $$
+declare 
+	
+begin
+	return (int_input, your_date, a_string);
+end; $$;

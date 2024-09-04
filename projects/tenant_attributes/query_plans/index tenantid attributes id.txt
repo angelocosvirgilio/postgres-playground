@@ -1,0 +1,71 @@
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ Bitmap Heap Scan on t_tble  (cost=12210.19..26345.89 rows=201754 width=55) (actual time=36.808..113.178 rows=199586 loops=1)
+   Recheck Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+   Filter: (tenant_attributes @> '{}'::text[])
+   Heap Blocks: exact=10595
+   ->  Bitmap Index Scan on ttble_idx  (cost=0.00..12159.75 rows=201754 width=0) (actual time=35.098..35.099 rows=199586 loops=1)
+         Index Cond: ((tenant_id = 't_1'::text) AND (id > 1000))
+ Planning Time: 0.500 ms
+ Execution Time: 118.251 ms
+(8 rows)
+
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..19930.97 rows=10343 width=55) (actual time=0.507..75.087 rows=10005 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on t_tble  (cost=0.00..17896.67 rows=4310 width=55) (actual time=0.286..68.812 rows=3335 loops=3)
+         Filter: ((tenant_attributes @> '{us}'::text[]) AND (id > 1000) AND (tenant_id = 't_1'::text))
+         Rows Removed by Filter: 329998
+ Planning Time: 0.074 ms
+ Execution Time: 75.424 ms
+(8 rows)
+
+                                                       QUERY PLAN                                                        
+-------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..18945.27 rows=486 width=55) (actual time=0.418..73.686 rows=449 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on t_tble  (cost=0.00..17896.67 rows=202 width=55) (actual time=0.929..63.532 rows=150 loops=3)
+         Filter: ((tenant_attributes @> '{us,"Old city"}'::text[]) AND (id > 1000) AND (tenant_id = 't_1'::text))
+         Rows Removed by Filter: 333184
+ Planning Time: 0.062 ms
+ Execution Time: 73.728 ms
+(8 rows)
+
+                                                       QUERY PLAN                                                        
+-------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..18899.17 rows=25 width=55) (actual time=8.306..88.815 rows=21 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on t_tble  (cost=0.00..17896.67 rows=10 width=55) (actual time=3.930..80.101 rows=7 loops=3)
+         Filter: ((tenant_attributes @> '{us,"Old city",Garage}'::text[]) AND (id > 1000) AND (tenant_id = 't_1'::text))
+         Rows Removed by Filter: 333326
+ Planning Time: 0.073 ms
+ Execution Time: 88.851 ms
+(8 rows)
+
+                                                        QUERY PLAN                                                         
+---------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..19943.07 rows=10464 width=55) (actual time=0.329..99.042 rows=10439 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on t_tble  (cost=0.00..17896.67 rows=4360 width=55) (actual time=0.197..89.913 rows=3480 loops=3)
+         Filter: ((tenant_attributes @> '{Garage}'::text[]) AND (id > 1000) AND (tenant_id = 't_1'::text))
+         Rows Removed by Filter: 329854
+ Planning Time: 0.060 ms
+ Execution Time: 99.430 ms
+(8 rows)
+
+                                                       QUERY PLAN                                                        
+-------------------------------------------------------------------------------------------------------------------------
+ Gather  (cost=1000.00..18945.77 rows=491 width=55) (actual time=0.309..104.093 rows=458 loops=1)
+   Workers Planned: 2
+   Workers Launched: 2
+   ->  Parallel Seq Scan on t_tble  (cost=0.00..17896.67 rows=205 width=55) (actual time=0.673..96.134 rows=153 loops=3)
+         Filter: ((tenant_attributes @> '{"Old city",Garage}'::text[]) AND (id > 1000) AND (tenant_id = 't_1'::text))
+         Rows Removed by Filter: 333181
+ Planning Time: 0.064 ms
+ Execution Time: 104.167 ms
+(8 rows)

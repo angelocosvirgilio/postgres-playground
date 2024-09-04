@@ -2,8 +2,8 @@ WITH
   -- SEED CONFIGURATION AND STATIC DATA
   -- (we use this as source for dictionary-based randomic selections)
   "seed_config"("doc") AS ( VALUES ('{
-    "entries_tot": 1000,
-    "tenants_tot": 3,   
+    "entries_tot": 1000000,
+    "tenants_tot": 5,   
     "null_values_in_array_possibilities": 15, 
     "countries": ["it","us","fr","es","de"],        
     "cities": [      
