@@ -15,6 +15,10 @@ start:
 	@docker-compose up -d
 	@docker-compose logs -f
 
+start-hasura:
+	@docker-compose up -d hasura-engine
+	@docker-compose logs -f hasura-engine
+
 stop:
 	@echo "Stopping Project..."
 	@docker-compose down
