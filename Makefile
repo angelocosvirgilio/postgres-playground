@@ -12,8 +12,23 @@ filename?=query-editor
 start:
 	@echo "Starting Project..."
 	@mkdir -p $(CURDIR)/$(pg_data)
-	@docker-compose up -d
+	@docker-compose up -d postgres pgadmin
 	@docker-compose logs -f
+
+start-hasura:
+	@docker-compose up -d hasura-engine
+	@docker-compose logs -f hasura-engine
+
+start-hasura-console:
+	@docker-compose up -d hasura-console
+	@docker-compose logs -f hasura-console
+
+start-hasura-apply:
+	@docker-compose up hasura-apply
+
+start-hasura-export:
+	@docker-compose up hasura-export
+
 
 stop:
 	@echo "Stopping Project..."

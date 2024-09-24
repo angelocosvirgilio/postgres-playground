@@ -45,3 +45,79 @@ services:
       chown pgadmin:pgadmin /var/lib/pgadmin/pgpass;
       /entrypoint.sh
       "
+
+  hasura-engine:
+    image: hasura/graphql-engine:v2.42.0
+    ports:
+      - "8080:8080"
+    restart: always    
+    environment:
+      ## postgres database to store Hasura metadata
+      HASURA_GRAPHQL_METADATA_DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
+      ## this env var can be used to add the above postgres database to Hasura as a data source. this can be removed/updated based on your needs
+      PG_DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
+      ## enable the console served by server
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true" # set to "false" to disable console
+      ## enable debugging mode. It is recommended to disable this in production
+      HASURA_GRAPHQL_DEV_MODE: "true"
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log      
+      HASURA_GRAPHQL_ADMIN_SECRET: hasura
+    depends_on:
+      postgres:
+        condition: service_healthy
+  
+  hasura-console:
+    build:
+      context: ./projects/hasura-console
+      dockerfile: Dockerfile
+    volumes:
+      - ./projects/hasura-console/hasura-migrations:/usr/src/hasura/app
+    ports:
+      - "9693:9693"
+      - "9695:9695"
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
+      PG_DATABASE_URL: postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/postgres
+      HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_ADMIN_SECRET:-hasura}"
+      HASURA_GRAPHQL_ENDPOINT: http://127.0.0.1:8080
+      HASURA_APPLY_MIGRATIONS: "true"
+      HASURA_APPLY_METADATA: "true"
+      HASURA_APPLY_SEEDS: "true"
+      HASURA_RUN_CONSOLE: "true"
+    restart: unless-stopped
+    depends_on:
+      hasura-engine:
+        condition: service_healthy
+
+  hasura-apply:
+    build:
+      context: ./projects/hasura-console
+      dockerfile: Dockerfile
+    volumes:
+      - ./projects/hasura-console/hasura-migrations:/usr/src/hasura/app
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-postgres}@scm-hasura-db:5432/postgres?application_name=hasura-apply
+      HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_ADMIN_SECRET:-hasura}"
+      HASURA_GRAPHQL_ENDPOINT: http://127.0.0.1:8080
+      HASURA_APPLY_MIGRATIONS: "true"
+      HASURA_APPLY_METADATA: "true"
+      HASURA_APPLY_SEEDS: "true"
+    depends_on:
+      hasura-engine:
+        condition: service_healthy
+
+  hasura-export:
+    build:
+      context: ./projects/hasura-console
+      dockerfile: Dockerfile
+    volumes:
+      - ./projects/hasura-console/hasura-migrations:/usr/src/hasura/app
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD:-postgres}@scm-hasura-db:5432/postgres?application_name=hasura-export
+      HASURA_GRAPHQL_ADMIN_SECRET: "${HASURA_ADMIN_SECRET:-hasura}"
+      HASURA_GRAPHQL_ENDPOINT: http://127.0.0.1:8080
+      HASURA_EXPORT_METADATA: "true"
+      HASURA_EXPORT_DATABASE: "false"
+    depends_on:
+      hasura-engine:
+        condition: service_healthy
