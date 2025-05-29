@@ -1,0 +1,1 @@
+DROP SCHEMA IF EXISTS "cross-data-hash" CASCADE;

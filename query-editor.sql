@@ -1,5 +1,3 @@
-select 1,2,3;
-
-select 'a','b','c';
+SELECT * FROM pg_stat_bgwriter;
 
 
